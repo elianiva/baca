@@ -3,12 +3,17 @@ package main
 import (
 	"net/http"
 
+	"github.com/allegro/bigcache/v3"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/pkg/errors"
 )
 
-func NewServer() *echo.Echo {
+type ServerConfig struct {
+	Cache *bigcache.BigCache
+}
+
+func newServer(config *ServerConfig) *echo.Echo {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Renderer = NewRenderer()
@@ -21,7 +26,7 @@ func NewServer() *echo.Echo {
 			source = "hackernews"
 		}
 
-		entries, err := fetchNews(source)
+		entries, err := fetchNews(config.Cache, source)
 		if err != nil {
 			return c.String(http.StatusInternalServerError, err.Error())
 		}
@@ -38,34 +43,27 @@ func NewServer() *echo.Echo {
 			source = "hackernews"
 		}
 
-		entries, err := fetchNews(source)
+		entries, err := fetchNews(config.Cache, source)
 		if err != nil {
 			return c.String(http.StatusInternalServerError, err.Error())
 		}
 
-		return c.Render(http.StatusOK, "source-list.gohtml", map[string]any{
+		return c.Render(http.StatusOK, "source-update.gohtml", map[string]any{
 			"Entries": entries,
-		})
-	})
-
-	e.GET("/menu/:source", func(c echo.Context) error {
-		source := c.Param("source")
-		c.Response().Header().Set("HX-Trigger", "list-changed")
-		return c.Render(http.StatusOK, "menu-list.gohtml", map[string]any{
-			"Source": source,
+			"Source":  source,
 		})
 	})
 
 	return e
 }
 
-func fetchNews(source string) (entries []NewsEntry, err error) {
+func fetchNews(cache *bigcache.BigCache, source string) (entries []NewsEntry, err error) {
 	switch source {
 	case "lobsters":
-		entries, err = fetchLobsters()
+		entries, err = fetchLobsters(cache)
 		return
 	case "hackernews":
-		entries, err = fetchHackernews()
+		entries, err = fetchHackernews(cache)
 		return
 	default:
 		err = errors.New("unknown source")

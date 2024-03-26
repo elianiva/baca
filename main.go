@@ -22,7 +22,10 @@ func App() *cli.App {
 				Name:  "server",
 				Usage: "Start the application server",
 				Action: func(c *cli.Context) error {
-					server := NewServer()
+					cache := newCache()
+					server := newServer(&ServerConfig{
+						Cache: cache,
+					})
 
 					exitSig := make(chan os.Signal, 1)
 					signal.Notify(exitSig, os.Interrupt, os.Kill)

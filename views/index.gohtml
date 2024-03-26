@@ -10,14 +10,10 @@
         <body>
             <section>
                 <aside>
-                    <ul id="menu-list">
-                        {{block "menu-list" .}}{{end}}
-                    </ul>
+                    {{block "menu-list" .}}{{end}}
                 </aside>
                 <main>
-                    <ul id="result-container" hx-trigger="list-changed from:body" hx-get="/source/lobsters">
-                        {{block "source-list" .}} {{end}}
-                    </ul>
+                    {{block "source-list" .}}{{end}}
                 </main>
             </section>
         </body>

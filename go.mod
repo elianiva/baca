@@ -3,6 +3,7 @@ module baca
 go 1.21.8
 
 require (
+	github.com/allegro/bigcache/v3 v3.1.0
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/pkg/errors v0.9.1

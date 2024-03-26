@@ -1,18 +1,18 @@
 {{block "menu-list" .}}
-    <li
-            class="{{if eq .Source "hackernews" }}active{{end}}"
-            hx-get="/menu/hackernews"
-            hx-swap="innerHTML"
-            hx-target="#menu-list"
-    >
-        hackernews
-    </li>
-    <li
-            class="{{if eq .Source "lobsters" }}active{{end}}"
-            hx-get="/menu/lobsters"
-            hx-swap="innerHTML"
-            hx-target="#menu-list"
-    >
-        lobsters
-    </li>
+    <ul id="menu-list" hx-swap-oob="true">
+        <li
+                class="{{if eq .Source "hackernews" }}active{{end}}"
+                hx-get="/source/hackernews"
+                hx-swap="innerHTML"
+        >
+            hackernews
+        </li>
+        <li
+                class="{{if eq .Source "lobsters" }}active{{end}}"
+                hx-get="/source/lobsters"
+                hx-swap="innerHTML"
+        >
+            lobsters
+        </li>
+    </ul>
 {{end}}

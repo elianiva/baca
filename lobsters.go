@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/allegro/bigcache/v3"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 )
@@ -20,7 +21,19 @@ type LobstersEntry struct {
 
 const LobsterUrl = "https://lobste.rs/hottest.json"
 
-func fetchLobsters() ([]NewsEntry, error) {
+func fetchLobsters(cache *bigcache.BigCache) ([]NewsEntry, error) {
+	cached, err := cache.Get("lobsters")
+	if err == nil {
+		var entries []NewsEntry
+		if err := json.Unmarshal(cached, &entries); err != nil {
+			return nil, errors.Wrap(err, "failed to unmarshal cached lobsters")
+		}
+		return entries, nil
+	}
+	if !errors.Is(err, bigcache.ErrEntryNotFound) {
+		return nil, errors.Wrap(err, "failed to get lobsters from cache")
+	}
+
 	resp, err := http.Get(LobsterUrl)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to fetch lobsters")
@@ -37,7 +50,18 @@ func fetchLobsters() ([]NewsEntry, error) {
 		return nil, errors.Wrap(err, "failed to decode lobsters response")
 	}
 
-	return mapLobstersToNewsEntry(entries), nil
+	newsEntries := mapLobstersToNewsEntry(entries)
+	serializedEntries, err := json.Marshal(newsEntries)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to marshal lobsters")
+	}
+
+	err = cache.Set("lobsters", serializedEntries)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cache lobsters")
+	}
+
+	return newsEntries, nil
 }
 
 func mapLobstersToNewsEntry(entries []LobstersEntry) []NewsEntry {
