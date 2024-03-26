@@ -1,0 +1,25 @@
+{{block "index" .}}
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>Baca</title>
+            <link rel="stylesheet" href="/assets/style.css">
+            <script src="/assets/htmx.min.js" defer></script>
+        </head>
+        <body>
+            <section>
+                <aside>
+                    <ul id="menu-list">
+                        {{block "menu-list" .}}{{end}}
+                    </ul>
+                </aside>
+                <main>
+                    <ul id="result-container" hx-trigger="list-changed from:body" hx-get="/source/lobsters">
+                        {{block "source-list" .}} {{end}}
+                    </ul>
+                </main>
+            </section>
+        </body>
+    </html>
+{{end}}

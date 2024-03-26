@@ -1,0 +1,8 @@
+{{block "source-list" .}}
+    {{range .Entries}}
+        <li>
+            <a href="{{.Url}}" target="_blank">{{.Title}}</a>
+            <span>({{.Url.Hostname}})</span>
+        </li>
+    {{end}}
+{{end}}

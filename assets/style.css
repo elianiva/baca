@@ -1,0 +1,101 @@
+:root {
+    --background-dark: #1e1e1e;
+    --foreground-dark: #d4d4d4;
+    --border-dark: #444444;
+    --url-dark: #db967a;
+    --secondary-dark: #689856;
+    --active-dark: #389bec;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    background-color: var(--background-dark);
+}
+
+body {
+    display: flex;
+    padding-top: 10rem;
+    justify-content: center;
+    font-family: monospace;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    width: 1200px;
+    height: 200px;
+}
+
+aside {
+    padding: 1rem;
+    background-color: #181818;
+}
+
+main {
+    padding: 1rem;
+    height: 28rem;
+    overflow-y: auto;
+    background-color: #181818;
+    flex: 1;
+}
+
+main::-webkit-scrollbar-track {
+    background-color: var(--background-dark);
+}
+
+main::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+main::-webkit-scrollbar-thumb {
+    background-color: var(--background-dark);
+}
+
+main:hover::-webkit-scrollbar-thumb {
+    background-color: var(--border-dark);
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    font-size: 1rem;
+    color: var(--foreground-dark);
+    margin-bottom: 1rem;
+    line-height: 1em;
+    text-align: right;
+}
+
+li.active {
+    color: var(--active-dark);
+}
+
+aside li {
+    cursor: pointer;
+}
+
+aside li:hover {
+    color: var(--active-dark);
+}
+
+#result-container li {
+    text-align: left;
+}
+
+#result-container li span {
+    color: var(--secondary-dark);
+}
+
+a {
+    color: var(--url-dark);
+    text-decoration: none;
+}

@@ -1,0 +1,18 @@
+{{block "menu-list" .}}
+    <li
+            class="{{if eq .Source "hackernews" }}active{{end}}"
+            hx-get="/menu/hackernews"
+            hx-swap="innerHTML"
+            hx-target="#menu-list"
+    >
+        hackernews
+    </li>
+    <li
+            class="{{if eq .Source "lobsters" }}active{{end}}"
+            hx-get="/menu/lobsters"
+            hx-swap="innerHTML"
+            hx-target="#menu-list"
+    >
+        lobsters
+    </li>
+{{end}}
