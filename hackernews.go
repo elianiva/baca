@@ -69,10 +69,15 @@ func mapHackernewsToNewsEntry(entries []HackernewsEntry) []NewsEntry {
 	var newsEntries []NewsEntry
 	for _, entry := range entries {
 		parsedUrl, err := url.Parse(entry.URL)
+		if parsedUrl.Host == "" {
+			parsedUrl.Scheme = "https"
+			parsedUrl.Host = "news.ycombinator.com"
+		}
 		if err != nil {
 			log.Error().Err(err).Msg("failed to parse url")
 			continue
 		}
+
 		newsEntries = append(newsEntries, NewsEntry{
 			Title:  entry.Title,
 			Url:    parsedUrl,

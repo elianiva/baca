@@ -40,7 +40,7 @@ func App() *cli.App {
 						}
 					}()
 
-					err := server.Start(":8080")
+					err := server.Start(":8081")
 					if err != nil && !errors.Is(err, http.ErrServerClosed) {
 						log.Fatal().Err(err).Msg("failed to start server")
 					}
