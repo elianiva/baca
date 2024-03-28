@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for baca-morning-firefly-3196 on 2024-03-27T09:46:02+07:00
+# fly.toml app configuration file generated for baca on 2024-03-27T09:58:58+07:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -17,6 +17,6 @@ primary_region = 'sin'
   processes = ['app']
 
 [[vm]]
-  memory = '1gb'
+  memory = '512mb'
   cpu_kind = 'shared'
   cpus = 1
